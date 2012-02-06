@@ -1,4 +1,5 @@
 (require 'color-theme)
+(require 'haml-mode)
 
 ;;
 ;; Generic settings
