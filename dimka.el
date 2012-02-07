@@ -14,6 +14,8 @@
 (global-set-key (kbd "M-i") 'ido-goto-symbol)
 (global-set-key (kbd "M-o") 'open-previous-line)
 (global-set-key (kbd "C-o") 'open-next-line)
+(global-set-key (kbd "C-`") 'push-mark-no-activate) ;; function is below
+(global-set-key (kbd "M-`") 'jump-to-mark) ;; function is below
 
 ;;
 ;; Generic hook customisations
@@ -108,3 +110,23 @@
 ;; Autoindent open-*-lines
 (defvar newline-and-indent t
   "Modify the behavior of the open-*-line functions to cause them to autoindent.")
+
+(defun push-mark-no-activate ()
+  "Pushes `point' to `mark-ring' and does not activate the region
+Equivalent to \\[set-mark-command] when \\[transient-mark-mode] is disabled"
+  (interactive)
+  (push-mark (point) t nil)
+  (message "Pushed mark to ring"))
+
+(defun jump-to-mark ()
+  "Jumps to the local mark, respecting the `mark-ring' order.
+This is the same as using \\[set-mark-command] with the prefix argument."
+  (interactive)
+  (set-mark-command 1))
+
+(defun exchange-point-and-mark-no-activate ()
+  "Identical to \\[exchange-point-and-mark] but will not activate the region."
+  (interactive)
+  (exchange-point-and-mark)
+  (deactivate-mark nil))
+(define-key global-map [remap exchange-point-and-mark] 'exchange-point-and-mark-no-activate)
