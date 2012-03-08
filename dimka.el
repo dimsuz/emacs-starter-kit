@@ -23,17 +23,35 @@
 (add-hook 'before-save-hook 'delete-trailing-whitespace) ;; remove trailing whitespace
 (remove-hook 'coding-hook 'turn-on-hl-line-mode) ;; no highlight line (enabled by starterkit by default)
 
+;; AC mode
+(require 'auto-complete-config)
+(add-to-list 'ac-dictionary-directories "~/.emacs.d/ac-dict")
+(ac-config-default)
+(setq ac-auto-start nil)
+(global-set-key (kbd "M-/")  'auto-complete)
+
 ;;
 ;; Ruby specific customizations
 ;;
-(require 'ruby-electric)
-(add-hook 'ruby-mode-hook 'ruby-electric-mode)
+;; none
 
 ;;
 ;; C++ specific customizations
 (add-hook 'c-mode-common-hook
           (lambda()
             (local-set-key  (kbd "C-c o") 'ff-find-other-file)))
+
+;; Emacs-Eclim
+(add-to-list 'load-path (expand-file-name "~/.emacs.d/emacs-eclim/"))
+;; only add the vendor path when you want to use the libraries provided with emacs-eclim
+(add-to-list 'load-path (expand-file-name "~/.emacs.d/emacs-eclim/vendor"))
+(require 'eclim)
+(setq eclim-auto-save t)
+(global-eclim-mode)
+;; auto-complete: add the emacs-eclim source
+(require 'ac-emacs-eclim-source)
+(add-hook 'eclim-mode-hook (lambda () (add-to-list 'ac-sources 'ac-source-emacs-eclim)))
+(global-set-key (kbd "C-M-/") 'eclim-complete)
 
 ;;
 ;; Functions
