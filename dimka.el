@@ -53,6 +53,11 @@
 (add-hook 'eclim-mode-hook (lambda () (add-to-list 'ac-sources 'ac-source-emacs-eclim)))
 (global-set-key (kbd "C-M-/") 'eclim-complete)
 
+;; YaSnippet
+(require 'yasnippet) ;; not yasnippet-bundle
+(yas/initialize)
+(yas/load-directory "~/.emacs.d/elpa/yasnippet-0.6.1/snippets/")
+
 ;;
 ;; Functions
 ;;
